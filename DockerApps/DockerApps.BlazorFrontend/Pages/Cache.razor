@@ -1,0 +1,74 @@
+﻿@page "/cache"
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Cache</PageTitle>
+
+<h1>Manage Redis Cache</h1>
+
+<p>
+    This red text is from cache: <span class="text-danger">@_cacheData</span>
+</p>
+
+<EditForm Model="@_formModel" OnValidSubmit="@HandleValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>
+        New cache data:
+        <InputText class="form-control" id="cache-data" @bind-Value="@_formModel.CacheData" />
+    </label>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private string? _cacheData;
+    private FormModel _formModel;
+
+    public Cache()
+    {
+        _formModel = new FormModel("");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCacheDataAsync();
+    }
+
+    private async Task HandleValidSubmitAsync()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("cache", _formModel.CacheData);
+            if (response.IsSuccessStatusCode)
+            {
+                await GetCacheDataAsync();
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("alert", "Error");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await JS.InvokeVoidAsync("alert", "Error");
+        }
+    }
+
+    private async Task GetCacheDataAsync()
+    {
+        _cacheData = await Http.GetStringAsync("cache");
+    }
+
+    class FormModel
+    {
+        public string CacheData { get; set; }
+
+        public FormModel(string cacheData)
+        {
+            CacheData = cacheData;
+        }
+    }
+}

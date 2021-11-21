@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  blazor-frontend:
+    image: trannamtrung1st/docker-learning:blazor-frontend-1.0
+    ports:
+      - target: 80
+        published: 7070
+    networks:
+      - dockerapps-net
+
+  minimal-api:
+    image: trannamtrung1st/docker-learning:minimal-api-1.0
+    ports:
+      - target: 80
+        published: 8080
+    networks:
+      - dockerapps-net
+
+  first-redis-cache:
+    image: redis
+    ports:
+      - target: 6379
+        published: 6379
+    networks:
+      dockerapps-net:
+
+networks:
+  dockerapps-net:

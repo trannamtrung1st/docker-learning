@@ -1,0 +1,8 @@
+﻿docker container rm -f blazor-frontend-1.0
+
+docker image prune -f
+docker image rm -f trannamtrung1st/docker-learning:blazor-frontend-1.0
+docker image build . -t trannamtrung1st/docker-learning:blazor-frontend-1.0 -f DockerApps.BlazorFrontend/Dockerfile
+docker image push trannamtrung1st/docker-learning:blazor-frontend-1.0
+
+docker container run -d --name blazor-frontend-1.0 -p 7070:80 trannamtrung1st/docker-learning:blazor-frontend-1.0

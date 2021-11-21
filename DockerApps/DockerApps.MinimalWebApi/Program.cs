@@ -1,4 +1,14 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors();
+
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration["AppSettings:RedisHost"];
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -7,14 +17,21 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(opt =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    opt.RoutePrefix = string.Empty;
+});
 
-app.UseHttpsRedirection();
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader();
+    opt.AllowAnyMethod();
+    opt.AllowAnyOrigin();
+});
+
+//app.UseHttpsRedirection();
 
 var summaries = new[]
 {
@@ -34,6 +51,19 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapGet("/cache", (IDistributedCache cache) =>
+{
+    var cacheData = cache.GetString("cache-data");
+    return cacheData ?? "";
+})
+.WithName("GetCache");
+
+app.MapPost("/cache", async ([FromBody] string data, IDistributedCache cache) =>
+{
+    await cache.SetStringAsync("cache-data", data);
+})
+.WithName("SetCache");
 
 app.Run();
 
