@@ -1,3 +1,0 @@
-docker rm -f first-redis-cache
-
-docker run -d --name first-redis-cache -p 6379:6379 redis

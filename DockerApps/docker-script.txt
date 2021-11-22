@@ -1,2 +1,27 @@
+#docker network create -d overlay --attachable dockerapps-shared-network
+#docker network create -d overlay --ingress dockerapps-ingress-network
+#docker network inspect dockerapps-ingress-network
+
+
 docker-compose up -d
 docker-compose down
+
+
+#docker-compose up -f {path}
+
+
+# ================ Services/Stack =================
+docker stack deploy -c docker-compose-swarm.yml dockerapps
+docker stack ls
+docker stack services dockerapps
+docker stack ps dockerapps
+#docker stack rm dockerapss
+
+
+# ================ References =================
+#docker swarm init --advertise-addr=...
+#docker swarm join-token manager
+#docker swarm join-token worker
+#docker node ls
+#docker service scale {app}=4
+#docker network ls

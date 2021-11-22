@@ -6,3 +6,10 @@ docker image build . -t trannamtrung1st/docker-learning:blazor-frontend-1.0 -f D
 docker image push trannamtrung1st/docker-learning:blazor-frontend-1.0
 
 docker container run -d --name blazor-frontend-1.0 -p 7070:80 trannamtrung1st/docker-learning:blazor-frontend-1.0
+
+
+# ================ Docker services =================
+docker service rm blazor-frontend-1_0
+docker service create --name blazor-frontend-1_0 --publish 7070:80 --replicas 3 trannamtrung1st/docker-learning:blazor-frontend-1.0
+docker service ls
+docker service ps blazor-frontend-1_0

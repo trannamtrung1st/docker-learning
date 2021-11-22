@@ -1,0 +1,10 @@
+docker rm -f first-redis-cache
+
+docker run -d --name first-redis-cache -p 6379:6379 redis
+
+
+# ================ Docker services =================
+docker service rm first-redis-cache
+docker service create --name first-redis-cache --publish 6379:6379 --replicas 3 redis
+docker service ls
+docker service ps first-redis-cache

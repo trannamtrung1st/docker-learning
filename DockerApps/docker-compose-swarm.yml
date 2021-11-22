@@ -5,12 +5,16 @@ services:
     ports:
       - target: 80
         published: 7070
+    deploy:
+      replicas: 3
 
   minimal-api:
     image: trannamtrung1st/docker-learning:minimal-api-1.0
     ports:
       - target: 80
         published: 8080
+    deploy:
+      replicas: 3
 
   first-redis-cache:
     image: redis

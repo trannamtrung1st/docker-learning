@@ -24,3 +24,10 @@ docker container run -d --name minimal-api-1.0 -p 8080:80 trannamtrung1st/docker
 
 # ================ Docker shortcuts =================
 # Ctrl + P + Q: back to terminal and leave shell running
+
+
+# ================ Docker services =================
+docker service rm minimal-api-1_0
+docker service create --name minimal-api-1_0 --publish 8080:80 --replicas 3 trannamtrung1st/docker-learning:minimal-api-1.0
+docker service ls
+docker service ps minimal-api-1_0
