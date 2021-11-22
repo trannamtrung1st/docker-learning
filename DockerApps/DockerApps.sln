@@ -9,8 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockerApps.BlazorFrontend",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{B84873F8-9856-41D8-A108-8D83681FF672}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose-swarm.yml = docker-compose-swarm.yml
 		docker-compose.yml = docker-compose.yml
 		docker-script.txt = docker-script.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{6F668874-AA0F-42CF-B7D5-27D46CFDA30D}"
+	ProjectSection(SolutionItems) = preProject
+		Redis\docker-script = Redis\docker-script
 	EndProjectSection
 EndProject
 Global
